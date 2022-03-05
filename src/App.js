@@ -15,7 +15,7 @@ const App = () => {
   const [allWaves, setAllWaves] = useState([]);
   console.log("currentAccount: ", currentAccount);
   /* デプロイされたコントラクトのアドレスを保持する変数を作成 */
-  const contractAddress = "0x0446F5a402B6B3Fa2625A1d6127e1B1693451435";
+  const contractAddress = "0x403c2b484AdbA484c8A1eE4B062Efa4e420bc5BF";
   /* コントラクトからすべてのwavesを取得するメソッドを作成 */
   /* ABIの内容を参照する変数を作成 */
   const contractABI = abi.abi;
@@ -40,6 +40,7 @@ const App = () => {
             address: wave.waver,
             timestamp: new Date(wave.timestamp * 1000),
             message: wave.message,
+            eth: wave.eth,
           };
         });
         /* React Stateにデータを格納する */
@@ -58,7 +59,7 @@ const App = () => {
   useEffect(() => {
     let wavePortalContract;
 
-    const onNewWave = (from, timestamp, message) => {
+    const onNewWave = (from, timestamp, message, eth) => {
       console.log("NewWave", from, timestamp, message);
       setAllWaves((prevState) => [
         ...prevState,
@@ -66,6 +67,7 @@ const App = () => {
           address: from,
           timestamp: new Date(timestamp * 1000),
           message: message,
+          eth: eth,
         },
       ]);
     };
@@ -253,6 +255,7 @@ const App = () => {
                   <div>Address: {wave.address}</div>
                   <div>Time: {wave.timestamp.toString()}</div>
                   <div>Message: {wave.message}</div>
+                  <div>ETH: {ethers.utils.formatEther(wave.eth)} ether</div>
                 </div>
               );
             })}
